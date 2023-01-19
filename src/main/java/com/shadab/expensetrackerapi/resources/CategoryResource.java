@@ -1,6 +1,7 @@
 package com.shadab.expensetrackerapi.resources;
 
 import com.shadab.expensetrackerapi.domain.Category;
+import com.shadab.expensetrackerapi.domain.Transaction;
 import com.shadab.expensetrackerapi.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -17,9 +19,10 @@ public class CategoryResource {
     @Autowired
     CategoryService categoryService;
     @GetMapping
-    public String getAllCategories(HttpServletRequest req){
+    public ResponseEntity<List<Category>> getAllCategories(HttpServletRequest req){
         int userId = (Integer) req.getAttribute("userId");
-        return "Authenticated : "+" Welcome User "+userId;
+        List<Category> categories = categoryService.fetchAllCategories(userId);
+        return  new ResponseEntity<>(categories,HttpStatus.OK);
     }
 
     @GetMapping("/{categoryId}")
