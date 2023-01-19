@@ -11,5 +11,5 @@ public interface CategoryRepository {
     Category findById(Integer userId,Integer categoryId) throws EtBadRequestException;
     Integer create(Integer userId,String title,String descpription) throws EtBadRequestException;
     void update (Integer userId,Integer categoryId,Category category) throws EtBadRequestException;
-    void removeById(Integer userId,Integer categoryId);
+    void removeById(Integer userId,Integer categoryId) throws EtResourceNotFoundException;
 }

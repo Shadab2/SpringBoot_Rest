@@ -75,9 +75,15 @@ public class CategoryRepositoryImp implements CategoryRepository{
         }
     }
 
-    @Override
-    public void removeById(Integer userId, Integer categoryId) {
+    private void removeAllCatTransactions(Integer categoryId) {
+        jdbcTemplate.update(SQL_DELETE_ALL_TRANSACTIONS, new Object[]{categoryId});
+    }
 
+    @Override
+    public void removeById(Integer userId, Integer categoryId) throws EtResourceNotFoundException {
+        removeAllCatTransactions(categoryId);
+        int count = jdbcTemplate.update(SQL_DELETE_CATEGORY,new Object[]{userId,categoryId});
+        if(count==0) throw new EtResourceNotFoundException("No such category");
     }
 
     private RowMapper<Category> categoryRoMapper = ((rs, rowNum) -> {
